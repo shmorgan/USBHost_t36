@@ -313,7 +313,7 @@ void USBHost::isr()
 	if (stat & USBHS_USBSTS_PCI) println(" Port Change");
 	//if (stat & USBHS_USBSTS_FRI) println(" Frame List Rollover");
 	if (stat & USBHS_USBSTS_SEI) println(" System Error");
-	//if (stat & USBHS_USBSTS_AAI) println(" Async Advance (doorbell)");
+	if (stat & USBHS_USBSTS_AAI) println(" Async Advance (doorbell)");
 	if (stat & USBHS_USBSTS_URI) println(" Reset Recv");
 	//if (stat & USBHS_USBSTS_SRI) println(" SOF");
 	if (stat & USBHS_USBSTS_SLI) println(" Suspend");
@@ -322,7 +322,7 @@ void USBHost::isr()
 	//if (stat & USBHS_USBSTS_PS)  println(" Periodic Sched En");
 	//if (stat & USBHS_USBSTS_AS)  println(" Async Sched En");
 	if (stat & USBHS_USBSTS_NAKI) println(" NAK");
-	if (stat & USBHS_USBSTS_UAI) println(" USB Async");
+	//if (stat & USBHS_USBSTS_UAI) println(" USB Async");
 	if (stat & USBHS_USBSTS_UPI) println(" USB Periodic");
 	if (stat & USBHS_USBSTS_TI0) println(" Timer0");
 	if (stat & USBHS_USBSTS_TI1) println(" Timer1");
@@ -584,7 +584,11 @@ Pipe_t * USBHost::new_Pipe(Device_t *dev, uint32_t type, uint32_t endpoint,
 	Transfer_t *halt;
 	uint32_t c=0, dtc=0;
 
-	println("new_Pipe");
+	print("new_Pipe Type:",type);
+	print(", Endpoint:",endpoint);
+	print(", Direction:",direction);
+	print(", Maxlen:",maxlen);
+	println(", interval:",interval);
 	pipe = allocate_Pipe();
 	if (!pipe) return NULL;
 	halt = allocate_Transfer();
